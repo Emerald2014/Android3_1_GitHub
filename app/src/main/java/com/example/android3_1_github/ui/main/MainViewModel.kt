@@ -1,5 +1,6 @@
 package com.example.android3_1_github.ui.main
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.android3_1_github.data.User
@@ -12,6 +13,8 @@ class MainViewModel(
     private val liveData: MutableLiveData<GitHubState> = MutableLiveData(),
     private val userGitHubImpl: RetrofitImpl = RetrofitImpl()
 ) : ViewModel() {
+    fun getLiveData(): LiveData<GitHubState> = liveData
+
     fun sendServerRequest() {
         userGitHubImpl.getRetrofitImpl().getUsers().enqueue(
             object : Callback<List<User>> {

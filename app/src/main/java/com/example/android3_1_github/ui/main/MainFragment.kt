@@ -11,12 +11,12 @@ import com.example.android3_1_github.databinding.MainFragmentBinding
 
 class MainFragment : Fragment() {
 
-    private lateinit var viewModel: MainViewModel
+    private var viewModel: MainViewModel = MainViewModel()
 
     private var _binding: MainFragmentBinding? = null
     private val binding get() = _binding!!
 
-//    private var adapter: MainFragmentAdapter? = null
+    private var adapter: MainFragmentAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,9 +35,20 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val adapter = MainFragmentAdapter()
-        adapter.setData(data)
-        binding.mainFragmentRv.adapter = adapter
+        viewModel.getLiveData().observe(viewLifecycleOwner, { renderData(it) })
+        viewModel.sendServerRequest()
+
+//        val adapter = MainFragmentAdapter()
+
+
+    }
+
+    private fun renderData(it: GitHubState) {
+        if (it is GitHubState.Success) {
+            adapter = MainFragmentAdapter()
+            adapter?.setData(data)
+            binding.mainFragmentRv.adapter = adapter
+        }
 
     }
 
