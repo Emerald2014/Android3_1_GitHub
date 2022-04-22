@@ -10,12 +10,12 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class MainViewModel(
-    private val liveData: MutableLiveData<GitHubState> = MutableLiveData(),
+    private val liveData: MutableLiveData<GitHubState<User>> = MutableLiveData(),
     private val userGitHubImpl: RetrofitImpl = RetrofitImpl()
 ) : ViewModel() {
-    fun getLiveData(): LiveData<GitHubState> = liveData
+    fun getLiveData(): LiveData<GitHubState<User>> = liveData
 
-    fun sendServerRequest() {
+    fun getUsersFromServer() {
         userGitHubImpl.getRetrofitImpl().getUsers().enqueue(
             object : Callback<List<User>> {
                 override fun onResponse(call: Call<List<User>>, response: Response<List<User>>) {

@@ -1,5 +1,6 @@
 package com.example.android3_1_github.retrofit
 
+import android.util.Log
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 

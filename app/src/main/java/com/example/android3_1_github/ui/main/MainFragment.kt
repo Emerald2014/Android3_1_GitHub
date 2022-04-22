@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import com.example.android3_1_github.R
 import com.example.android3_1_github.data.User
 import com.example.android3_1_github.databinding.MainFragmentBinding
+import com.example.android3_1_github.ui.details.DetailsFragment
 
 class MainFragment : Fragment() {
 
@@ -36,20 +37,36 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.getLiveData().observe(viewLifecycleOwner, { renderData(it) })
-        viewModel.sendServerRequest()
-
-//        val adapter = MainFragmentAdapter()
-
-
+        viewModel.getUsersFromServer()
     }
 
-    private fun renderData(it: GitHubState) {
+    private fun renderData(it: GitHubState<User>) {
         if (it is GitHubState.Success) {
-            adapter = MainFragmentAdapter()
-            adapter?.setData(it.serverResponseData)
+            adapter = MainFragmentAdapter(
+                object :OnItemViewClickListener {
+                    override fun onItemViewClick(user: User) {
+                        val managerFr = activity?.supportFragmentManager
+                        managerFr?.let {
+                            val bundle = Bundle().apply {
+                                putParcelable(DetailsFragment.BUNDLE_REPO, user)
+                            }
+                            managerFr.beginTransaction()
+                                .replace(R.id.container, DetailsFragment.newInstance(bundle))
+                                .addToBackStack("")
+                                .commitAllowingStateLoss()
+                        }
+                    }
+
+                }
+            ).apply { setData(it.serverResponseData) }
+
             binding.mainFragmentRv.adapter = adapter
         }
 
+    }
+
+    interface OnItemViewClickListener {
+        fun onItemViewClick(user: User)
     }
 
 
