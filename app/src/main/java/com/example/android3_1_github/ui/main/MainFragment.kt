@@ -1,32 +1,53 @@
 package com.example.android3_1_github.ui.main
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.example.android3_1_github.R
+import com.example.android3_1_github.data.User
+import com.example.android3_1_github.databinding.MainFragmentBinding
 
 class MainFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = MainFragment()
-    }
-
     private lateinit var viewModel: MainViewModel
+
+    private var _binding: MainFragmentBinding? = null
+    private val binding get() = _binding!!
+
+//    private var adapter: MainFragmentAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.main_fragment, container, false)
+        _binding = MainFragmentBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
-        // TODO: Use the ViewModel
+    val data = arrayListOf(
+        User(1, "login1", "null", "null"),
+        User(2, "login2", "null", "null"),
+        User(3, "login3", "null", "null"),
+        User(4, "login4", "null", "null")
+    )
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val adapter = MainFragmentAdapter()
+        adapter.setData(data)
+        binding.mainFragmentRv.adapter = adapter
+
     }
 
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    companion object {
+        fun newInstance() = MainFragment()
+    }
 }
