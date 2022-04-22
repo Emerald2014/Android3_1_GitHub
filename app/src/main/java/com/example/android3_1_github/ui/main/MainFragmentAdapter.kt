@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.example.android3_1_github.data.User
 import com.example.android3_1_github.databinding.MainFragmentItemBinding
 
@@ -30,6 +31,7 @@ class MainFragmentAdapter : RecyclerView.Adapter<MainFragmentAdapter.MainViewHol
             MainFragmentItemBinding.bind(itemView).apply {
                 itemIdTv.text = user.id.toString()
                 itemLoginTv.text = user.login
+                itemAvatar.load(user.avatarUrl)
             }
         }
     }

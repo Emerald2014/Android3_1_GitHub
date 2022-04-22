@@ -46,7 +46,7 @@ class MainFragment : Fragment() {
     private fun renderData(it: GitHubState) {
         if (it is GitHubState.Success) {
             adapter = MainFragmentAdapter()
-            adapter?.setData(data)
+            adapter?.setData(it.serverResponseData)
             binding.mainFragmentRv.adapter = adapter
         }
 
