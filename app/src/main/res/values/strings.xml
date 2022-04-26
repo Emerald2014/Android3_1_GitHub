@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Android3_1_GitHub</string>
+    <string name="repos">Репозитории:</string>
 </resources>

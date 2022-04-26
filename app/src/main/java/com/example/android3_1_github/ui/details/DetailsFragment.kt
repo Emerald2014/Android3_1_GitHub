@@ -5,16 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import coil.load
-import com.example.android3_1_github.data.Repo
-import com.example.android3_1_github.data.User
+import com.example.android3_1_github.app
 import com.example.android3_1_github.databinding.DetailsFragmentBinding
-import com.example.android3_1_github.ui.main.GitHubState
-import com.example.android3_1_github.ui.main.MainFragment
+import com.example.android3_1_github.domain.entity.Repo
+import com.example.android3_1_github.domain.entity.User
 
 class DetailsFragment : Fragment() {
 
-    private var viewModel: DetailsViewModel = DetailsViewModel()
+    private val viewModel: DetailsViewModel by viewModels { DetailsViewModelFactory(requireActivity().app.gitHubRepo) }
 
     private var _binding: DetailsFragmentBinding? = null
     private val binding get() = _binding!!
@@ -33,7 +33,7 @@ class DetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         arguments?.getParcelable<User>(BUNDLE_REPO)?.let {
-            viewModel.getLiveData().observe(viewLifecycleOwner, { renderData(it) })
+            viewModel.repos.observe(viewLifecycleOwner, { renderData(it) })
             viewModel.getRepoFromServer(it.login)
             binding.itemLoginTv.text = it.login
             binding.itemIdTv.text = it.id.toString()
@@ -41,22 +41,17 @@ class DetailsFragment : Fragment() {
         }
     }
 
-    private fun renderData(it: GitHubState<Repo>) = with(binding) {
-//        itemIdTv.text = user.id.toString()
-//        itemLoginTv.text = user.login
-//        itemAvatar.load(user.avatarUrl)
-        if (it is GitHubState.Success) {
-            adapter = DetailsFragmentAdapter()
-            adapter?.setRepos(it.serverResponseData)
-            binding.detailsFragmentRv.adapter = adapter
-        }
+    private fun renderData(it: List<Repo>) = with(binding) {
+        adapter = DetailsFragmentAdapter()
+        adapter?.setRepos(it)
+        binding.detailsFragmentRv.adapter = adapter
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
-
 
     companion object {
         const val BUNDLE_REPO = "repo"

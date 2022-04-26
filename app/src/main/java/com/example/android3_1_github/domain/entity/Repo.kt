@@ -1,4 +1,4 @@
-package com.example.android3_1_github.data
+package com.example.android3_1_github.domain.entity
 
 data class Repo(
     val id: Int,

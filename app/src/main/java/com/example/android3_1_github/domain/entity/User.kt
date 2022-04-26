@@ -1,4 +1,4 @@
-package com.example.android3_1_github.data
+package com.example.android3_1_github.domain.entity
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
@@ -12,13 +12,3 @@ data class User(
     val url: String
 ) :Parcelable
 
-fun getLocalUsers(): List<User> {
-    return listOf(
-        User(
-            1,
-            "name1",
-            "avatarUrl",
-            "URL"
-        )
-    )
-}

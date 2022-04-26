@@ -5,14 +5,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import com.example.android3_1_github.data.User
 import com.example.android3_1_github.databinding.MainFragmentItemBinding
+import com.example.android3_1_github.domain.entity.User
 
 class MainFragmentAdapter(private val itemClickListener: MainFragment.OnItemViewClickListener) :
     RecyclerView.Adapter<MainFragmentAdapter.MainViewHolder>() {
     lateinit var listUser: List<User>
     fun setData(listUser: List<User>) {
         this.listUser = listUser
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(
