@@ -1,7 +1,8 @@
-package com.example.android3_1_github
+package com.example.android3_1_github.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import com.example.android3_1_github.R
 import com.example.android3_1_github.ui.main.MainFragment
 
 class MainActivity : AppCompatActivity() {
